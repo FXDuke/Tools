@@ -2,7 +2,7 @@
 
 # Multipurpose Tool API for Arduino
 
-## Features
+### Features
 * LED Class
 * Button Class
 
