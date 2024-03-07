@@ -12,7 +12,7 @@
 #### SetPin(int)
 - Sets the pin of the LED.
 #### EnableDigital()
-- Sets output mode to Digital (Output mode is Digital by default)
+- Sets output mode to Digital. (Output mode is Digital by default)
 #### EnableAnalog()
 - Sets output mode to Analog. Allows for 1-255 brightness control for LEDs attached to ~pins.
 #### Brightness(int)
@@ -27,10 +27,12 @@
 - Enables blinking with a specified (int)ms delay.
 #### BlinkOff()
 - Disables blinking.
+#### IsOn() -> bool
+- Returns the LEDs state.
 #### On()
-- Enables LED
+- Enables LED.
 #### Off()
-- Disables LED
+- Disables LED.
 #### Update()
 - Updates the LED, should be placed in loop function.
 #### Attributes

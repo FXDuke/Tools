@@ -1,12 +1,10 @@
 #include <Arduino.h>
 #pragma once
 
-#ifndef CLOCK_TIME
-#define CLOCK_TIME 0.01
-#define CLOCK_TIME_MS (int)CLOCK_TIME*1000
-#endif
-
 namespace Tools {
+
+    const float CLOCK_TIME = 0.01;
+    const float CLOCK_TIME_MS = 10;
 
     class LED {
 
@@ -42,6 +40,7 @@ namespace Tools {
 
         int GetBrightness();
         bool Mode();
+        bool IsOn();
         void EnableDigital();
         void EnableAnalog();
         void Brightness(int);

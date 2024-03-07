@@ -20,6 +20,11 @@ int LED::GetBrightness()
     return i32_brightness;
 }
 
+bool LED::IsOn()
+{
+    return b_on;
+}
+
 bool LED::Mode()
 {
     return b_pinType;
@@ -49,7 +54,7 @@ void LED::SetPin(int pin)
 void LED::Tween(int power, float time)
 {
     power = (power > 255) ? 255 : (power < 0) ? 0 : power;
-    
+
     i32_brightnessOrigin = i32_brightness;
     i32_brightnessGoal = power;
     i32_brightnessDelta = (power - i32_brightness) / time;
@@ -134,7 +139,6 @@ void Button::Update()
         pressed = 0;
         break;
     case 1:
-        held_time = 0.0;
         if (b_debounce)
         {
             released = 1;
@@ -143,6 +147,7 @@ void Button::Update()
             pressed = 0;
             break;
         }
+        held_time = 0.0;
         released = 0;
         break;
     }
