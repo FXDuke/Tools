@@ -1,16 +1,12 @@
 #include <Arduino.h>
 #pragma once
 
+#ifndef CLOCK_TIME
+#define CLOCK_TIME 0.01
+#define CLOCK_TIME_MS (int)CLOCK_TIME*1000
+#endif
+
 namespace Tools {
-
-    float CLOCK_TIME = 0.01;
-    int CLOCK_TIME_MS = CLOCK_TIME*1000;
-
-    void ChangeClock(float rate)
-    {
-        CLOCK_TIME = rate;
-        CLOCK_TIME_MS = rate*1000;
-    };
 
     class LED {
 

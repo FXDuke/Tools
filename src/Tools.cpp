@@ -37,8 +37,7 @@ void LED::EnableAnalog()
 
 void LED::Brightness(int power)
 {
-    i32_brightness = (power > 255) ? 255 : (power < 0) ? 0
-                                                       : power;
+    i32_brightness = (power > 255) ? 255 : (power < 0) ? 0 : power;
 }
 
 void LED::SetPin(int pin)
@@ -49,6 +48,8 @@ void LED::SetPin(int pin)
 
 void LED::Tween(int power, float time)
 {
+    power = (power > 255) ? 255 : (power < 0) ? 0 : power;
+    
     i32_brightnessOrigin = i32_brightness;
     i32_brightnessGoal = power;
     i32_brightnessDelta = (power - i32_brightness) / time;
