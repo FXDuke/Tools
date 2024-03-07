@@ -6,9 +6,9 @@
 * LED Class
 * Button Class
 
-## Documentation
+# Documentation
 
-### LED
+## LED
 #### SetPin(int)
 - Sets the pin of the LED.
 #### EnableDigital()
@@ -37,7 +37,7 @@
 - bool tweening
 - bool blink
 
-### Button
+## Button
 #### Button(int)
 - Sets the pin of the Button.
 #### Update()
