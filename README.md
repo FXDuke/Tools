@@ -49,3 +49,15 @@
 - bool held
 - bool released 
 - float held_time
+
+## ShiftRegister
+#### ShiftRegister(uint8_t,uint8_t,uint8_t)
+- Sets the Clock, Latch, and Data pins.
+#### Read(uint8_t)
+- Reads the value stored at the (uint8_t) pin.
+#### Append(uint8_t, bool)
+- Appends the value at (uint8_t) to (bool).
+#### Write(uint8_t)
+- Writes (uint8_t) to storage.
+#### Store()
+- Stores saved data to memory.

@@ -1,6 +1,8 @@
 #include "Tools.h"
 using namespace Tools;
 
+// -- LED -- //
+
 void LED::_updateTween()
 {
     f_delta = min(f_delta + CLOCK_TIME, f_time);
@@ -42,7 +44,8 @@ void LED::EnableAnalog()
 
 void LED::Brightness(int power)
 {
-    i32_brightness = (power > 255) ? 255 : (power < 0) ? 0 : power;
+    i32_brightness = (power > 255) ? 255 : (power < 0) ? 0
+                                                       : power;
 }
 
 void LED::SetPin(int pin)
@@ -53,7 +56,8 @@ void LED::SetPin(int pin)
 
 void LED::Tween(int power, float time)
 {
-    power = (power > 255) ? 255 : (power < 0) ? 0 : power;
+    power = (power > 255) ? 255 : (power < 0) ? 0
+                                              : power;
 
     i32_brightnessOrigin = i32_brightness;
     i32_brightnessGoal = power;
@@ -120,6 +124,8 @@ void LED::Update()
     }
 }
 
+// -- BUTTON -- //
+
 void Button::Update()
 {
 
@@ -157,4 +163,58 @@ Button::Button(int pin)
 {
     i32_pin = pin;
     pinMode(pin, INPUT_PULLUP);
+}
+
+// -- SHIFT REGISTER -- //
+
+bool ShiftRegister::Read(uint8_t position)
+{
+    return i8_storage & (1ULL << position);
+}
+
+void ShiftRegister::Append(uint8_t position, bool value)
+{
+    switch (value)
+    {
+    case 0:
+        i8_storage &= ~(1ULL << position);
+    case 1:
+        i8_storage |= 1ULL << position;
+    }
+}
+
+void ShiftRegister::Write(uint8_t num)
+{
+    i8_storage = num;
+}
+
+void ShiftRegister::Store()
+{
+    uint8_t read = i8_storage;
+    for (int i = 0; i < 8; i++)
+    {
+        digitalWrite(i8_clockPin, LOW);
+        digitalWrite(i8_dataPin, HIGH * (read & 1));
+        digitalWrite(i8_clockPin, HIGH);
+        read >>= 1;
+    }
+    digitalWrite(i8_latchPin, LOW);
+    digitalWrite(i8_latchPin, HIGH);
+}
+
+ShiftRegister::ShiftRegister(uint8_t clockPin, uint8_t latchPin, uint8_t dataPin)
+{
+
+    i8_clockPin = clockPin;
+    i8_latchPin = latchPin;
+    i8_dataPin = dataPin;
+
+    pinMode(clockPin, OUTPUT);
+    pinMode(latchPin, OUTPUT);
+    pinMode(dataPin, OUTPUT);
+
+    digitalWrite(clockPin, LOW);
+    digitalWrite(latchPin, HIGH);
+    digitalWrite(dataPin, LOW);
+    
 }
