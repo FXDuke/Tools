@@ -16,12 +16,6 @@ ShiftRegister Register(6,5,4);
 void setup()
 {
 
-  Serial.begin(9600);
-  Serial.println(" ");
-  Serial.println(sizeof(LED));
-  Serial.println(sizeof(Button));
-  Serial.println(sizeof(ShiftRegister));
-
   Register.Write(0);
   Register.Store();
 

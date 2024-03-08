@@ -106,8 +106,10 @@ void ShiftRegister::Append(uint8_t position, bool value)
     {
     case 0:
         i8_storage &= ~(1ULL << position);
+        break;
     case 1:
         i8_storage |= 1ULL << position;
+        break;
     }
 }
 
