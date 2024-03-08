@@ -4,60 +4,37 @@
 namespace Tools
 {
 
-    const float CLOCK_TIME = 0.01;
-    const float CLOCK_TIME_MS = 10;
+    extern int CLOCK_TIME;
 
     class LED
     {
 
     private:
         // Basic
-        int i32_pin = 0;
+        uint8_t i8_pin = 0;
 
-        int i32_brightness = 100; // Only active with analog output
-
-        bool b_pinType = 1; // 1 = Digital, 0 = Analog
-
-        bool b_on = 0;
-
-        int i32_blinkTime = CLOCK_TIME_MS;
-        int i32_blinkCooldown = 0;
+        uint8_t i8_blinkCooldown = 0;
         bool b_blinkOn = 0; // Flips on and off on a delay, doenst set b_on;
 
-        // Tween
-
-        int i32_brightnessDelta;
-        int i32_brightnessGoal;
-        int i32_brightnessOrigin = 100;
-        float f_delta = 0.0;
-        float f_time = 0.0;
-
-        void _updateTween();
+        uint8_t i8_brightness = 100;
 
     public:
-        bool tweening = 0;
+        bool mode = 1;
+        bool on = 0;
         bool blink = 0;
+        uint16_t blinkDelay = 100;
 
-        int GetBrightness();
-        bool Mode();
-        bool IsOn();
-        void EnableDigital();
-        void EnableAnalog();
-        void Brightness(int);
-        void SetPin(int);
-        void Tween(int, float);
-        void BlinkOn(int);
-        void BlinkOff();
-        void On();
-        void Off();
+        uint8_t GetBrightness();
+        void Brightness(int16_t);
         void Update();
+        LED(uint8_t);
     };
 
     class Button
     {
 
     private:
-        int i32_pin = 0;
+        uint8_t i8_pin = 0;
         bool b_debounce = 0;
 
     public:
@@ -65,7 +42,7 @@ namespace Tools
         bool released = 0;
         bool held = 0;
 
-        float held_time = 0.0;
+        uint16_t held_time = 0;
 
         void Update();
 

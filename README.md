@@ -5,41 +5,26 @@
 ### Features
 * LED Class
 * Button Class
+* ShiftRegister Class
 
 # Documentation
 
-## LED
-#### SetPin(int)
+## LED : 36bit
+#### LED(uint8_t)
 - Sets the pin of the LED.
-#### EnableDigital()
-- Sets output mode to Digital. (Output mode is Digital by default)
-#### EnableAnalog()
-- Sets output mode to Analog. Allows for 1-255 brightness control for LEDs attached to ~pins.
-#### Brightness(int)
+#### Brightness(uint16_t)
 - Sets brightness for Analog Mode. (100 by default)
-#### Mode() -> bool
-- Returns the current output mode. (1 for Digital, 0 for Analog)
-#### GetBrightness() -> int
+#### GetBrightness() -> uint8_t
 - Returns the current brightness.
-#### Tween(int, float)
-- Animates brightness linearly into (int) in (float) seconds.
-#### BlinkOn(int)
-- Enables blinking with a specified (int)ms delay.
-#### BlinkOff()
-- Disables blinking.
-#### IsOn() -> bool
-- Returns the LEDs state.
-#### On()
-- Enables LED.
-#### Off()
-- Disables LED.
 #### Update()
 - Updates the LED, should be placed in loop function.
 #### Attributes
-- bool tweening
 - bool blink
+- bool on (0 by default)
+- bool blinkDelay
+- bool mode (1 = Digital, 0 = Analog, 1 by default)
 
-## Button
+## Button : 28bit
 #### Button(int)
 - Sets the pin of the Button.
 #### Update()
@@ -48,9 +33,9 @@
 - bool pressed
 - bool held
 - bool released 
-- float held_time
+- int16_t held_time
 
-## ShiftRegister
+## ShiftRegister : 16bit
 #### ShiftRegister(uint8_t,uint8_t,uint8_t)
 - Sets the Clock, Latch, and Data pins.
 #### Read(uint8_t)

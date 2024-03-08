@@ -3,125 +3,53 @@ using namespace Tools;
 
 // -- LED -- //
 
-void LED::_updateTween()
-{
-    f_delta = min(f_delta + CLOCK_TIME, f_time);
-
-    i32_brightness = i32_brightnessOrigin + i32_brightnessDelta * f_delta;
-
-    tweening = (f_delta < f_time);
-
-    if (!tweening)
-    {
-        i32_brightness = i32_brightnessGoal;
-    }
-}
-
-int LED::GetBrightness()
-{
-    return i32_brightness;
-}
-
-bool LED::IsOn()
-{
-    return b_on;
-}
-
-bool LED::Mode()
-{
-    return b_pinType;
-}
-
-void LED::EnableDigital()
-{
-    b_pinType = 1;
-}
-
-void LED::EnableAnalog()
-{
-    b_pinType = 0;
-}
-
-void LED::Brightness(int power)
-{
-    i32_brightness = (power > 255) ? 255 : (power < 0) ? 0
-                                                       : power;
-}
-
-void LED::SetPin(int pin)
-{
-    pinMode(pin, OUTPUT);
-    i32_pin = pin;
-}
-
-void LED::Tween(int power, float time)
+void LED::Brightness(int16_t power)
 {
     power = (power > 255) ? 255 : (power < 0) ? 0
                                               : power;
-
-    i32_brightnessOrigin = i32_brightness;
-    i32_brightnessGoal = power;
-    i32_brightnessDelta = (power - i32_brightness) / time;
-    f_time = time;
-    f_delta = 0.0;
-
-    tweening = true;
+    i8_brightness = power;
 }
 
-void LED::BlinkOn(int delay)
+uint8_t LED::GetBrightness()
 {
-    i32_blinkTime = max(CLOCK_TIME, delay);
-    blink = 1;
-}
-
-void LED::BlinkOff()
-{
-    blink = 0;
-}
-
-void LED::On()
-{
-    b_on = 1;
-}
-
-void LED::Off()
-{
-    b_on = 0;
+    return i8_brightness;
 }
 
 void LED::Update()
 {
 
-    bool on = b_on;
-
-    if (tweening)
-    {
-        _updateTween();
-    }
+    bool _on = on;
 
     if (blink)
     {
 
-        if (i32_blinkCooldown > 0)
+        if (i8_blinkCooldown > 0)
         {
-            i32_blinkCooldown -= CLOCK_TIME_MS;
+            i8_blinkCooldown -= CLOCK_TIME;
             return;
         }
 
-        i32_blinkCooldown = i32_blinkTime;
+        i8_blinkCooldown = blinkDelay;
         b_blinkOn = !b_blinkOn;
-        on = b_blinkOn & on;
+        _on = b_blinkOn & _on;
     }
 
-    switch (b_pinType)
+    switch (mode)
     {
     case 0:
-        analogWrite(i32_pin, i32_brightness * on);
+        analogWrite(i8_pin, i8_brightness * _on);
         break;
     case 1:
-        digitalWrite(i32_pin, HIGH * on + LOW * (!on));
+        digitalWrite(i8_pin, HIGH * _on + LOW * (!_on));
         break;
     }
+}
+
+LED::LED(uint8_t pin)
+{
+    i8_pin = pin;
+    pinMode(pin, OUTPUT);
+    digitalWrite(pin, LOW);
 }
 
 // -- BUTTON -- //
@@ -129,7 +57,7 @@ void LED::Update()
 void Button::Update()
 {
 
-    bool read = digitalRead(i32_pin);
+    bool read = digitalRead(i8_pin);
 
     switch (read)
     {
@@ -153,7 +81,7 @@ void Button::Update()
             pressed = 0;
             break;
         }
-        held_time = 0.0;
+        held_time = 0;
         released = 0;
         break;
     }
@@ -161,7 +89,7 @@ void Button::Update()
 
 Button::Button(int pin)
 {
-    i32_pin = pin;
+    i8_pin = pin;
     pinMode(pin, INPUT_PULLUP);
 }
 
